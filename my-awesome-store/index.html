@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kraft.4u - Home</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <!-- Your Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">
+          <i class="fa-solid fa-store me-2"></i>
+          <strong>kraft.4u</strong>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="store.html">Store</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+          </ul>
+          <form class="d-flex" action="store.html" method="GET">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search Products"
+              aria-label="Search"
+              name="search"
+            />
+          </form>
+          <a
+            href="cart.html"
+            class="btn btn-outline-dark ms-2 position-relative"
+          >
+            <i class="fa-solid fa-cart-shopping"></i> Cart
+            <span
+              id="cart-count"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="display: none"
+            >
+              0
+            </span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Carousel -->
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img
+            src="https://placehold.co/1920x600/333/FFF?text=Handcrafted+With+Love"
+            class="d-block w-100"
+            alt="Slide 1"
+          />
+        </div>
+        <div class="carousel-item">
+          <img
+            src="https://placehold.co/1920x600/555/FFF?text=Unique+Decor+For+Your+Space"
+            class="d-block w-100"
+            alt="Slide 2"
+          />
+        </div>
+        <div class="carousel-item">
+          <img
+            src="https://placehold.co/1920x600/777/FFF?text=Discover+Lippon+Art"
+            class="d-block w-100"
+            alt="Slide 3"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Browse Categories Section -->
+    <div class="container my-5">
+      <h2 class="text-center mb-4">Browse Categories</h2>
+      <p class="text-center text-muted mb-5">
+        Art that stays close to your heart.
+      </p>
+      <div class="row">
+        <!-- Category Card 1 -->
+        <div class="col-md-3 col-sm-6 mb-4">
+          <div class="card h-100">
+             <img
+              src="images/1.jpg"
+              class="card-img-top"
+              alt="Keychains"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Keychains</h5>
+              <a href="category.html?category=Keychains" class="btn btn-primary">Shop Now</a>
+            </div>
+          </div>
+        </div>
+        <!-- Category Card 2 -->
+        <div class="col-md-3 col-sm-6 mb-4">
+          <div class="card h-100">
+             <img
+              src="images/shiv.jpg"
+              class="card-img-top"
+              alt="Wall Decor"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Wall Decor</h5>
+              <a href="category.html?category=Wall+Decor" class="btn btn-primary">Shop Now</a>
+            </div>
+          </div>
+        </div>
+        <!-- Category Card 3 -->
+        <div class="col-md-3 col-sm-6 mb-4">
+          <div class="card h-100">
+             <img
+              src="images/jagganath.jpg"
+              class="card-img-top"
+              alt="Lippan Art"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Lippan Art</h5>
+              <a href="category.html?category=Lippan+Art" class="btn btn-primary">Shop Now</a>
+            </div>
+          </div>
+        </div>
+        <!-- Category Card 4 -->
+        <div class="col-md-3 col-sm-6 mb-4">
+          <div class="card h-100">
+             <img
+              src="https://placehold.co/400x300/6c757d/FFF?text=Coming+Soon"
+              class="card-img-top"
+              alt="Coming Soon"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Coming Soon</h5>
+              <a href="category.html?category=Coming+Soon" class="btn btn-primary">Shop Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light text-center text-lg-start mt-auto">
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2024 Copyright: <a class="text-dark" href="index.html">kraft.4u</a>
+      </div>
+    </footer>
+
+    <!-- WhatsApp Sidebar Button -->
+    <a href="https://wa.me/+919541354578
+  " class="whatsapp-button" target="_blank">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Your Custom JS -->
+    <script src="js/script.js"></script>
+  </body>
+</html>

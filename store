@@ -1,0 +1,10 @@
+/my-awesome-store
+├── index.html
+├── store.html
+├── product.html
+├── contact.html
+├── cart.html
+├── css/
+│   └── style.css
+└── js/
+    └── script.js

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kraft.4u - Store</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <!-- Your Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">
+          <i class="fa-solid fa-store me-2"></i>
+          <strong>kraft.4u</strong>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="store.html">Store</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+          </ul>
+          <form class="d-flex" action="store.html" method="GET">
+            <input
+              id="search-input"
+              class="form-control me-2"
+              type="search"
+              placeholder="Search Products"
+              aria-label="Search"
+            />
+          </form>
+          <a
+            href="cart.html"
+            class="btn btn-outline-dark ms-2 position-relative"
+          >
+            <i class="fa-solid fa-cart-shopping"></i> Cart
+            <span
+              id="cart-count"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="display: none"
+            >
+              0
+            </span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Product Listing Section -->
+    <div class="container my-5">
+      <h2 class="text-center mb-4">Our Products</h2>
+      <div class="row mb-4">
+        <div class="col-md-4 ms-auto">
+          <select id="sort-select" class="form-select">
+            <option value="default" selected>Sort by...</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="name-asc">Name: A to Z</option>
+            <option value="name-desc">Name: Z to A</option>
+          </select>
+        </div>
+      </div>
+      <div id="product-list" class="row">
+        <!-- Products will be dynamically loaded here -->
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light text-center text-lg-start mt-auto">
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2024 Copyright: <a class="text-dark" href="index.html">kraft.4u</a>
+      </div>
+    </footer>
+
+    <!-- WhatsApp Sidebar Button -->
+    <a href="https://wa.me/+919541354578" class="whatsapp-button" target="_blank">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Shared Data and Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+    <!-- Page-specific script -->
+    <script>
+      function renderProducts(products) {
+        const productListContainer = document.getElementById("product-list");
+        productListContainer.innerHTML = ""; // Clear existing products
+
+        if (products.length === 0) {
+          productListContainer.innerHTML =
+            '<p class="text-center">No products found matching your search.</p>';
+          return;
+        }
+
+        products.forEach((product) => {
+          const productCard = `
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card h-100 product-card">
+                <a href="product.html?id=${product.id}">
+                  <img src="${product.image.replace(
+                    "600x400",
+                    "400x300"
+                  )}" class="card-img-top" alt="${product.name}">
+                </a>
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <a href="product.html?id=${
+                      product.id
+                    }" class="text-decoration-none text-dark">${product.name}</a>
+                  </h5>
+                  <h6 class="card-subtitle mb-2 text-muted">₹${product.price}</h6>
+                </div>
+                <div class="card-footer text-center">
+                  <button class="btn btn-primary" onclick="addToCart('${
+                    product.id
+                  }', '${product.name}', ${product.price}, '${product.image}')">
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>`;
+          productListContainer.innerHTML += productCard;
+        });
+      }
+
+      function updateProductDisplay() {
+        const searchInput = document.getElementById("search-input");
+        const sortSelect = document.getElementById("sort-select");
+
+        const searchTerm = searchInput.value.toLowerCase();
+        const sortValue = sortSelect.value;
+
+        // 1. Filter by search term
+        let displayedProducts = allProducts.filter((product) =>
+          product.name.toLowerCase().includes(searchTerm)
+        );
+
+        // 2. Sort the filtered products
+        switch (sortValue) {
+          case "price-asc":
+            displayedProducts.sort((a, b) => a.price - b.price);
+            break;
+          case "price-desc":
+            displayedProducts.sort((a, b) => b.price - a.price);
+            break;
+          case "name-asc":
+            displayedProducts.sort((a, b) => a.name.localeCompare(b.name));
+            break;
+          case "name-desc":
+            displayedProducts.sort((a, b) => b.name.localeCompare(a.name));
+            break;
+          default:
+            // No sorting or "default"
+            break;
+        }
+
+        // 3. Render the final list
+        renderProducts(displayedProducts);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.getElementById("search-input");
+        const sortSelect = document.getElementById("sort-select");
+        const params = new URLSearchParams(window.location.search);
+        const searchTermFromUrl = params.get("search") || "";
+
+        searchInput.value = searchTermFromUrl;
+
+        searchInput.addEventListener("input", updateProductDisplay);
+        sortSelect.addEventListener("change", updateProductDisplay);
+
+        // Initial display on page load
+        updateProductDisplay();
+      });
+    </script>
+  </body>
+</html>
