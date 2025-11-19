@@ -1,88 +1,12 @@
-/* Flexbox solution for sticky footer */
-html {
-    height: 100%;
+/* General Card Image Styling */
+.card-img-top {
+  width: 100%; /* Make image fill the card width */
+  height: 250px; /* Give a fixed height to all card images */
+  object-fit: cover; /* Scale the image to cover the area, cropping if necessary */
+  object-position: center; /* Center the image within its frame */
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
-}
-
-/* Custom Styles for My Awesome Store */
-
-/* Make carousel images cover the area without distortion */
-.carousel-item img {
-    object-fit: cover;
-    height: 60vh; /* Adjust height as needed */
-}
-
-/* Style for the floating WhatsApp button */
-.whatsapp-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #25D366;
-    color: white;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    text-align: center;
-    font-size: 30px;
-    line-height: 60px;
-    z-index: 1000;
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
-    transition: transform 0.2s;
-}
-
-.whatsapp-button:hover {
-    transform: scale(1.1);
-    color: white;
-}
-
-/* Make footer stick to the bottom */
-footer {
-    margin-top: auto;
-}
-
-/* Star rating styles */
-.star-rating {
-    color: #f8b400; /* A gold/yellow color for stars */
-}
-/* Add this to your main CSS file */
-/*
- * Product Card Styling
- * This applies to product cards on store.html and category.html
- */
-.card.product-card {
-    border: none; /* Remove the default border */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Softer shadow */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-}
-
-.card.product-card:hover {
-    transform: translateY(-5px); /* Lift card on hover */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); /* Deeper shadow on hover */
-}
-
-.product-card .card-img-top {
-    height: 220px; /* Adjust height for a nice aspect ratio */
-    object-fit: cover; /* Ensures images cover the area without distortion */
-}
-
-.product-card .card-body {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1; /* This makes the body grow to fill space */
-}
-
-.product-card .card-title {
-    flex-grow: 1; /* Pushes price and button down */
-}
-
-.product-card .card-footer {
-    background-color: white;
-    border-top: none; /* Remove footer border */
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
