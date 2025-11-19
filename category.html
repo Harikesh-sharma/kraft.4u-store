@@ -18,59 +18,6 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="index.html">
-          <i class="fa-solid fa-store me-2"></i>
-          <strong>kraft.4u</strong>
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="store.html">Store</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact</a>
-            </li>
-          </ul>
-          <form class="d-flex" action="store.html" method="GET">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search Products"
-              aria-label="Search"
-              name="search"
-            />
-          </form>
-          <a
-            href="cart.html"
-            class="btn btn-outline-dark ms-2 position-relative"
-          >
-            <i class="fa-solid fa-cart-shopping"></i> Cart
-            <span
-              id="cart-count"
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-              style="display: none"
-            >
-              0
-            </span>
-          </a>
-        </div>
-      </div>
-    </nav>
-
     <!-- Product Listing Section -->
     <div class="container my-5">
       <h2 id="category-title" class="text-center mb-4">Loading Category...</h2>
@@ -78,13 +25,6 @@
         <!-- Products will be dynamically loaded here -->
       </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="bg-light text-center text-lg-start mt-auto">
-      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-        © 2024 Copyright: <a class="text-dark" href="index.html">kraft.4u</a>
-      </div>
-    </footer>
 
     <!-- WhatsApp Sidebar Button -->
     <a href="https://wa.me/+919541354578" class="whatsapp-button" target="_blank">
@@ -94,8 +34,9 @@
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Shared Data and Scripts -->
-    <script src="js/data.js"></script>
-    <script src="js/script.js"></script>
+    <script src="components.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
     <!-- Page-specific script for dynamic content -->
     <script>
       document.addEventListener("DOMContentLoaded", () => {
@@ -117,18 +58,25 @@
           }
 
           // Filter products based on the category
-          const filteredProducts = allProducts.filter(
-            (product) => product.category === categoryName
-          );
+          let filteredProducts;
+          if (categoryName === "All Products") {
+            filteredProducts = allProducts;
+          } else {
+            filteredProducts = allProducts.filter(
+              (product) => product.category === categoryName
+            );
+          }
 
           // Clear existing content and display products
           productListContainer.innerHTML = "";
 
           if (filteredProducts.length > 0) {
             filteredProducts.forEach((product) => {
+              const newBadge = product.isNew ? '<span class="badge bg-success new-arrival-badge">NEW</span>' : '';
               const productCard = `
                 <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100 product-card">
+                    ${newBadge}
                     <a href="product.html?id=${product.id}">
                       <img src="${product.image}" class="card-img-top" alt="${product.name}">
                     </a>
@@ -139,7 +87,7 @@
                       <h6 class="card-subtitle mb-2 text-muted">₹${product.price}</h6>
                     </div>
                     <div class="card-footer text-center">
-                      <button class="btn btn-primary" onclick="addToCart('${product.id}', '${product.name}', ${product.price}, '${product.image}')">
+                      <button class="btn btn-primary add-to-cart-btn" data-id="${product.id}">
                         Add to Cart
                       </button>
                     </div>
@@ -147,6 +95,17 @@
                 </div>
               `;
               productListContainer.innerHTML += productCard;
+            });
+
+            // Add event listeners to the new buttons
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productId = e.currentTarget.dataset.id;
+                    const product = allProducts.find(p => p.id === productId);
+                    if (product) {
+                        addToCart(product.id, product.name, product.price, product.image);
+                    }
+                });
             });
           } else {
             productListContainer.innerHTML = '<p class="text-center">No products found in this category.</p>';
