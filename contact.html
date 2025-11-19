@@ -18,59 +18,6 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="index.html">
-          <i class="fa-solid fa-store me-2"></i>
-          <strong>kraft.4u</strong>
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="store.html">Store</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="contact.html">Contact</a>
-            </li>
-          </ul>
-          <form class="d-flex" action="store.html" method="GET">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search Products"
-              aria-label="Search"
-              name="search"
-            />
-          </form>
-          <a
-            href="cart.html"
-            class="btn btn-outline-dark ms-2 position-relative"
-          >
-            <i class="fa-solid fa-cart-shopping"></i> Cart
-            <span
-              id="cart-count"
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-              style="display: none"
-            >
-              0
-            </span>
-          </a>
-        </div>
-      </div>
-    </nav>
-
     <!-- Contact Section -->
     <div class="container my-5">
       <h2 class="text-center mb-4">Get In Touch</h2>
@@ -103,7 +50,13 @@
             </div>
             <div class="mb-3">
               <label for="message" class="form-label">Message</label>
-              <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+              <textarea
+                class="form-control"
+                id="message"
+                name="message"
+                rows="5"
+                required
+              ></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Send Message</button>
           </form>
@@ -119,31 +72,33 @@
           <p><i class="fa-solid fa-envelope me-2"></i>pskraft.4u@gmail.com</p>
           <hr />
           <h4>Follow Us</h4>
-          <a href="https://www.instagram.com/kraft.4u/" class="btn btn-outline-dark me-2"
+          <a
+            href="https://www.instagram.com/kraft.4u/"
+            class="btn btn-outline-dark me-2"
             ><i class="fab fa-instagram"></i
           ></a>
-          <a href="https://wa.me/+919541354578" class="btn btn-outline-dark me-2"
+          <a
+            href="https://wa.me/+919541354578"
+            class="btn btn-outline-dark me-2"
             ><i class="fab fa-whatsapp"></i
           ></a>
         </div>
       </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-light text-center text-lg-start mt-auto">
-      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-        © 2024 Copyright: <a class="text-dark" href="index.html">kraft.4u</a>
-      </div>
-    </footer>
-
     <!-- WhatsApp Sidebar Button -->
-    <a href="https://wa.me/1234567890" class="whatsapp-button" target="_blank">
+    <a
+      href="https://wa.me/+919541354578"
+      class="whatsapp-button"
+      target="_blank"
+    >
       <i class="fab fa-whatsapp"></i>
     </a>
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Your Custom JS -->
-    <script src="js/script.js"></script>
+    <!-- Shared Components and Scripts -->
+    <script src="components.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
