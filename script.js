@@ -100,11 +100,11 @@ function switchQr(type) {
 
     if (type === 'phonepe') {
         // IMPORTANT: Replace with your actual PhonePe QR code image path
-        qrContainer.innerHTML = `<img src="images/WhatsApp Image 2025-11-19 at 00.52.51_c4a836f6.jpg" alt="PhonePe QR Code" style="width: 200px; height: 350px;">`;
+        qrContainer.innerHTML = `<img src="WhatsApp%20Image%202025-11-19%20at%2000.52.51_c4a836f6.jpg" alt="PhonePe QR Code" style="width: 200px; height: 350px;">`;
         instructions.textContent = "1. Scan to pay. 2. Enter the UTR below. 3. Click 'Confirm Order'.";
     } else if (type === 'gpay') {
         // IMPORTANT: Replace with your actual Google Pay QR code image path
-        qrContainer.innerHTML = `<img src="images/WhatsApp Image 2025-11-19 at 00.55.03_a36cdbe5.jpg" alt="Google Pay QR Code" style="width: 200px; height: 200px;">`;
+        qrContainer.innerHTML = `<img src="WhatsApp%20Image%202025-11-19%20at%2000.55.03_a36cdbe5.jpg" alt="Google Pay QR Code" style="width: 200px; height: 200px;">`;
         instructions.textContent = "1. Scan to pay. 2. Enter the UTR below. 3. Click 'Confirm Order'.";
     } else if (type === 'whatsapp') {
         const whatsappURL = `https://wa.me/${modalData.phoneNumber}?text=${encodeURIComponent(modalData.baseMessage)}`;
@@ -169,7 +169,7 @@ function removeFromCart(id) {
     cart = cart.filter((item) => item.id !== id);
     saveCart(cart);
     // This function is called from cart.html, so we reload the items
-    if (typeof displayCartItems === "function") {
+    if (window.location.pathname.endsWith('cart.html') && typeof displayCartItems === "function") {
         displayCartItems();
     }
 }
@@ -194,7 +194,7 @@ function updateQuantity(id, quantity) {
 
     saveCart(cart);
     // This function is called from cart.html, so we reload the items
-    if (typeof displayCartItems === "function") {
+    if (window.location.pathname.endsWith('cart.html') && typeof displayCartItems === "function") {
         displayCartItems();
     }
 }
