@@ -1,0 +1,637 @@
+/* ============================================
+   KRAFT.4U - HANDMADE ARTISAN AESTHETIC
+   Brand Colors: Light Azure, Light Blue, Pastel Indigo
+   ============================================ */
+
+/* ----- CSS Variables - Brand Color Palette ----- */
+:root {
+    /* Primary Brand Colors */
+    --brand-light-azure: #E0F4FF;
+    --brand-light-blue: #87CEEB;
+    --brand-pastel-indigo: #7B8CB8;
+    --brand-pastel-indigo-dark: #5A6A8A;
+    
+    /* Secondary Colors */
+    --brand-blue: #4A90D9;
+    --brand-blue-dark: #357ABD;
+    --brand-indigo: #6B5B95;
+    
+    /* Neutral Colors */
+    --brand-white: #FFFFFF;
+    --brand-cream: #F8FAFC;
+    --brand-light-gray: #E8EEF2;
+    --brand-gray: #6B7C8A;
+    --brand-dark: #2C3E50;
+    
+    /* Accent Colors */
+    --brand-gold: #D4A853;
+    --brand-success: #6BBF59;
+    
+    /* Shadows & Effects */
+    --brand-shadow: 0 4px 20px rgba(74, 144, 217, 0.15);
+    --brand-shadow-hover: 0 8px 30px rgba(74, 144, 217, 0.25);
+    --brand-shadow-soft: 0 2px 10px rgba(74, 144, 217, 0.08);
+}
+
+/* ----- Base Styles ----- */
+body {
+    font-family: 'Nunito', 'Segoe UI', sans-serif;
+    background-color: var(--brand-cream);
+    color: var(--brand-dark);
+    line-height: 1.7;
+}
+
+/* Background Texture */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234a90d9' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ----- Typography ----- */
+h1, h2, h3, h4, h5, h6, .navbar-brand, .card-title {
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-weight: 600;
+    color: var(--brand-dark);
+}
+
+h1 {
+    font-size: 2.5rem;
+    letter-spacing: -0.5px;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+/* ----- Navbar Styling ----- */
+.navbar {
+    background-color: var(--brand-white) !important;
+    box-shadow: var(--brand-shadow-soft);
+    padding: 0.8rem 0;
+    border-bottom: 3px solid var(--brand-pastel-indigo);
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    color: var(--brand-pastel-indigo) !important;
+    letter-spacing: 1px;
+}
+
+.navbar-brand i {
+    color: var(--brand-light-blue);
+    font-size: 1.4rem;
+}
+
+.nav-link {
+    color: var(--brand-dark) !important;
+    font-weight: 600;
+    padding: 0.5rem 1.2rem !important;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--brand-pastel-indigo);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 70%;
+}
+
+.nav-link:hover {
+    color: var(--brand-pastel-indigo) !important;
+}
+
+#search-form input {
+    border: 2px solid var(--brand-light-gray);
+    background-color: white;
+    border-radius: 25px;
+    padding: 0.5rem 1.2rem;
+    transition: all 0.3s ease;
+}
+
+#search-form input:focus {
+    border-color: var(--brand-pastel-indigo);
+    box-shadow: 0 0 0 3px rgba(123, 140, 184, 0.1);
+    outline: none;
+}
+
+/* Cart Button */
+.btn-outline-dark {
+    border: 2px solid var(--brand-dark);
+    color: var(--brand-dark);
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-dark:hover {
+    background-color: var(--brand-pastel-indigo);
+    border-color: var(--brand-pastel-indigo);
+    color: white !important;
+}
+
+/* ----- Hero Carousel ----- */
+#heroCarousel {
+    margin-bottom: 3rem;
+    box-shadow: var(--brand-shadow);
+}
+
+#heroCarousel .carousel-item {
+    height: 500px;
+    overflow: hidden;
+}
+
+#heroCarousel .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+#heroCarousel .carousel-item:hover img {
+    transform: scale(1.05);
+}
+
+#heroCarousel .carousel-caption {
+    background: rgba(44, 62, 80, 0.7);
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    backdrop-filter: blur(5px);
+}
+
+#heroCarousel .carousel-caption h1 {
+    color: white;
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+#heroCarousel .carousel-caption p {
+    color: var(--brand-light-azure);
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: var(--brand-pastel-indigo);
+    border-radius: 50%;
+    padding: 1.5rem;
+    background-size: 50%;
+}
+
+/* ----- Hero Banner ----- */
+.hero-banner {
+    background: linear-gradient(135deg, var(--brand-pastel-indigo) 0%, var(--brand-indigo) 100%);
+    padding: 4rem 0;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-banner::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50m-50 0a50 50 0 1 0 100 0a50 50 0 1 0-100 0' fill='none' stroke='%23ffffff' stroke-opacity='0.1' stroke-width='1'/%3E%3C/svg%3E");
+    animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.hero-banner h1 {
+    color: white;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero-banner p {
+    color: var(--brand-light-azure);
+    font-size: 1.3rem;
+}
+
+/* ----- Section Styling ----- */
+section {
+    padding: 3rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(to right, var(--brand-pastel-indigo), var(--brand-light-blue));
+    margin: 1rem auto;
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    text-center: center;
+    color: var(--brand-gray);
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    font-style: italic;
+}
+
+/* ----- Features Section ----- */
+.features-section {
+    background-color: white;
+    padding: 4rem 0;
+    margin: 3rem 0;
+}
+
+.feature-box {
+    text-align: center;
+    padding: 2rem;
+}
+
+.feature-box i {
+    font-size: 3rem;
+    color: var(--brand-pastel-indigo);
+    margin-bottom: 1rem;
+}
+
+.feature-box h4 {
+    color: var(--brand-dark);
+    margin-bottom: 0.5rem;
+}
+
+.feature-box p {
+    color: var(--brand-gray);
+    font-size: 0.95rem;
+}
+
+/* ----- Category Cards ----- */
+.category-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--brand-shadow);
+    transition: all 0.4s ease;
+    background-color: white;
+}
+
+.category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--brand-shadow-hover);
+}
+
+.category-card img {
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.category-card:hover img {
+    transform: scale(1.1);
+}
+
+.category-card .card-body {
+    padding: 1.5rem;
+    text-align: center;
+    background: linear-gradient(to bottom, white, var(--brand-light-azure));
+}
+
+.category-card .card-title {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: var(--brand-dark);
+}
+
+.category-card .card-text {
+    color: var(--brand-gray);
+    font-size: 0.9rem;
+}
+
+/* ----- Product Cards ----- */
+.product-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--brand-shadow-soft);
+    transition: all 0.4s ease;
+    background-color: white;
+    position: relative;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--brand-shadow-hover);
+}
+
+.product-card img {
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.08);
+}
+
+.product-card .card-body {
+    padding: 1.5rem;
+}
+
+.product-card .card-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--brand-dark);
+    transition: color 0.3s ease;
+}
+
+.product-card:hover .card-title {
+    color: var(--brand-pastel-indigo);
+}
+
+.product-card .card-subtitle {
+    color: var(--brand-pastel-indigo) !important;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+/* Badges */
+.new-arrival-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: var(--brand-pastel-indigo) !important;
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    z-index: 10;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* ----- Buttons ----- */
+.btn-primary {
+    background-color: var(--brand-pastel-indigo);
+    border-color: var(--brand-pastel-indigo);
+    border-radius: 25px;
+    padding: 0.6rem 1.8rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.btn-primary:hover {
+    background-color: var(--brand-pastel-indigo-dark);
+    border-color: var(--brand-pastel-indigo-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(123, 140, 184, 0.4);
+}
+
+.btn-success {
+    background-color: var(--brand-success);
+    border-color: var(--brand-success);
+    border-radius: 25px;
+    padding: 0.6rem 1.8rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #5AA848;
+    border-color: #5AA848;
+    transform: translateY(-2px);
+}
+
+.btn-light {
+    background-color: white;
+    border-color: white;
+    color: var(--brand-pastel-indigo);
+    border-radius: 30px;
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-light:hover {
+    background-color: var(--brand-light-azure);
+    border-color: var(--brand-light-azure);
+    color: var(--brand-pastel-indigo-dark);
+    transform: translateY(-2px);
+}
+
+/* ----- WhatsApp Button ----- */
+.whatsapp-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #25D366;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+}
+
+/* ----- Footer ----- */
+footer {
+    background-color: var(--brand-dark) !important;
+    color: var(--brand-white) !important;
+    padding: 2rem 0;
+    margin-top: 4rem;
+}
+
+footer a {
+    color: var(--brand-light-blue) !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--brand-light-azure) !important;
+}
+
+/* ----- Form Styling ----- */
+.form-control {
+    border: 2px solid var(--brand-light-gray);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--brand-pastel-indigo);
+    box-shadow: 0 0 0 3px rgba(123, 140, 184, 0.1);
+    outline: none;
+}
+
+.form-label {
+    color: var(--brand-dark);
+    font-weight: 600;
+}
+
+/* ----- Contact Page ----- */
+.contact-section {
+    background-color: white;
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: var(--brand-shadow);
+}
+
+.contact-info i {
+    color: var(--brand-pastel-indigo);
+    font-size: 1.3rem;
+    width: 40px;
+    height: 40px;
+    background-color: var(--brand-light-azure);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.contact-info p {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+/* ----- Cart Page ----- */
+#cart-items-container .card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: var(--brand-shadow-soft);
+    overflow: hidden;
+}
+
+#cart-items-container .img-fluid {
+    object-fit: cover;
+    height: 120px;
+}
+
+/* ----- Modal Styling ----- */
+.modal-content {
+    border-radius: 20px;
+    border: none;
+    box-shadow: var(--brand-shadow-hover);
+}
+
+.modal-header {
+    background-color: var(--brand-pastel-indigo);
+    color: white;
+    border-radius: 20px 20px 0 0;
+}
+
+.modal-header .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+.btn-group .btn.active {
+    background-color: var(--brand-pastel-indigo);
+    border-color: var(--brand-pastel-indigo);
+}
+
+/* ----- Card Image Styling ----- */
+.card-img-top {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* ----- Utility Classes ----- */
+.text-brand-pastel-indigo {
+    color: var(--brand-pastel-indigo) !important;
+}
+
+.text-brand-light-blue {
+    color: var(--brand-light-blue) !important;
+}
+
+.bg-brand-light-azure {
+    background-color: var(--brand-light-azure) !important;
+}
+
+.border-brand {
+    border: 2px solid var(--brand-pastel-indigo) !important;
+}
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Selection color */
+::selection {
+    background-color: var(--brand-pastel-indigo);
+    color: white;
+}
+
+/* ----- Responsive Adjustments ----- */
+@media (max-width: 768px) {
+    #heroCarousel .carousel-item {
+        height: 350px;
+    }
+    
+    #heroCarousel .carousel-caption h1 {
+        font-size: 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.6rem;
+    }
+    
+    .hero-banner h1 {
+        font-size: 2rem;
+    }
+    
+    .contact-section {
+        padding: 1.5rem;
+    }
+}

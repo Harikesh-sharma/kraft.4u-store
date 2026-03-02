@@ -7,6 +7,59 @@ let modalData = {
 };
 
 /**
+ * Shows a toast notification when adding to cart
+ */
+function showToast(message) {
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = 'custom-toast';
+    toast.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-check-circle" style="color: var(--brand-success); font-size: 1.2rem;"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    // Add styles dynamically
+    toast.style.cssText = `
+        position: fixed;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: white;
+        padding: 15px 25px;
+        border-radius: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        z-index: 9999;
+        animation: slideUp 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 600;
+        color: var(--brand-dark);
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Remove after animation
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+
+// Add keyframe animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideUp {
+        from { opacity: 0; transform: translate(-50%, 20px); }
+        to { opacity: 1; transform: translate(-50%, 0); }
+    }
+    @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
+
+/**
  * Simulates a "Buy Now" action for checkout.
  * If product details are passed, it adds that item to the cart first.
  * Then, it constructs a WhatsApp message with the cart contents and redirects.
@@ -23,7 +76,7 @@ function buyNow(id, name, price, image) {
 
     const cart = getCart();
     if (cart.length === 0) {
-        alert("Your cart is empty. Please add items to your cart before proceeding.");
+        showToast("Your cart is empty. Please add items first!");
         return;
     }
 
@@ -66,7 +119,7 @@ function buyNow(id, name, price, image) {
         const utr = utrInput ? utrInput.value.trim() : '';
         // Validate that the UTR is exactly 12 digits
         if (!/^\d{12}$/.test(utr)) {
-            alert('Please enter a valid 12-digit UTR/Transaction ID.');
+            showToast('Please enter a valid 12-digit UTR/Transaction ID.');
             return;
         }
         const finalMessage = `${modalData.baseMessage}\n\n*Payment UTR: ${utr}*\n\n(Order will be confirmed after payment verification.)`;
@@ -77,6 +130,7 @@ function buyNow(id, name, price, image) {
         localStorage.removeItem("cart");
         updateCartIcon();
         qrModal.hide();
+        showToast("Order sent! We'll confirm shortly.");
     };
 }
 
@@ -100,11 +154,11 @@ function switchQr(type) {
 
     if (type === 'phonepe') {
         // IMPORTANT: Replace with your actual PhonePe QR code image path
-        qrContainer.innerHTML = `<img src="images/WhatsApp Image 2025-11-19 at 00.52.51_c4a836f6.jpg" alt="PhonePe QR Code" style="width: 200px; height: 350px;">`;
+        qrContainer.innerHTML = `<img src="WhatsApp%20Image%202025-11-19%20at%2000.52.51_c4a836f6.jpg" alt="PhonePe QR Code" style="width: 200px; height: 350px; border-radius: 10px;">`;
         instructions.textContent = "1. Scan to pay. 2. Enter the UTR below. 3. Click 'Confirm Order'.";
     } else if (type === 'gpay') {
         // IMPORTANT: Replace with your actual Google Pay QR code image path
-        qrContainer.innerHTML = `<img src="images/WhatsApp Image 2025-11-19 at 00.55.03_a36cdbe5.jpg" alt="Google Pay QR Code" style="width: 200px; height: 200px;">`;
+        qrContainer.innerHTML = `<img src="WhatsApp%20Image%202025-11-19%20at%2000.55.03_a36cdbe5.jpg" alt="Google Pay QR Code" style="width: 200px; height: 200px; border-radius: 10px;">`;
         instructions.textContent = "1. Scan to pay. 2. Enter the UTR below. 3. Click 'Confirm Order'.";
     } else if (type === 'whatsapp') {
         const whatsappURL = `https://wa.me/${modalData.phoneNumber}?text=${encodeURIComponent(modalData.baseMessage)}`;
@@ -140,7 +194,7 @@ function saveCart(cart) {
  * @param {string} name - The product name.
  * @param {number} price - The product price.
  * @param {string} image - The product image URL.
- * @param {boolean} [showAlert=true] - Whether to show an alert.
+ * @param {boolean} [showAlert=true] - Whether to show a notification.
  */
 function addToCart(id, name, price, image, showAlert = true) {
     const cart = getCart();
@@ -156,7 +210,7 @@ function addToCart(id, name, price, image, showAlert = true) {
 
     saveCart(cart);
     if (showAlert) {
-        alert(`${name} has been added to your cart!`);
+        showToast(`${name} added to cart!`);
     }
 }
 
@@ -169,7 +223,7 @@ function removeFromCart(id) {
     cart = cart.filter((item) => item.id !== id);
     saveCart(cart);
     // This function is called from cart.html, so we reload the items
-    if (typeof displayCartItems === "function") {
+    if (window.location.pathname.endsWith('cart.html') && typeof displayCartItems === "function") {
         displayCartItems();
     }
 }
@@ -194,7 +248,7 @@ function updateQuantity(id, quantity) {
 
     saveCart(cart);
     // This function is called from cart.html, so we reload the items
-    if (typeof displayCartItems === "function") {
+    if (window.location.pathname.endsWith('cart.html') && typeof displayCartItems === "function") {
         displayCartItems();
     }
 }

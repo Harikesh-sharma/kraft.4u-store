@@ -4,115 +4,99 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kraft.4u - Product</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <!-- Font Awesome for Icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-    <link rel="stylesheet" href="css/style.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- Navigation Bar (Same as index.html) -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="index.html">
-          <i class="fa-solid fa-store me-2"></i>
-          <strong>kraft.4u</strong>
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="store.html">Store</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact</a>
-            </li>
-          </ul>
-          <form class="d-flex" action="store.html" method="GET">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search Products"
-              aria-label="Search"
-              name="search"
-            />
-          </form>
-          <a
-            href="cart.html"
-            class="btn btn-outline-dark ms-2 position-relative"
-          >
-            <i class="fa-solid fa-cart-shopping"></i> Cart
-            <span
-              id="cart-count"
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-              style="display: none"
-            >
-              0
-            </span>
-          </a>
-        </div>
+    <!-- Page Header -->
+    <div class="hero-banner py-4">
+      <div class="container text-center position-relative">
+        <h1>Product Details</h1>
+        <p class="lead">Handcrafted with love</p>
       </div>
-    </nav>
+    </div>
 
     <!-- Product Details Section -->
     <div class="container my-5">
       <div class="row">
-        <div class="col-md-6">
-          <img id="product-image" src="https://placehold.co/600x400/eee/333?text=Loading..." class="img-fluid" alt="Product Image" />
+        <div class="col-md-6 mb-4">
+          <div class="card" style="border-radius: 20px; overflow: hidden; box-shadow: var(--brand-shadow);">
+            <img id="product-image" src="https://placehold.co/600x400/eee/333?text=Loading..." class="img-fluid" alt="Product Image" style="width: 100%;" />
+          </div>
         </div>
         <div id="product-details-content" class="col-md-6">
-          <h2 id="product-name">Loading...</h2>
-          <h4 id="product-price" class="text-muted"></h4>
-          <div id="product-rating" class="mb-3"></div>
-          <p id="product-description"></p>
-          <hr />
-          <div class="d-grid gap-2 d-md-block">
-            <button id="buy-now-btn" class="btn btn-success btn-lg" disabled>
-              <i class="fa-solid fa-bolt"></i> Buy Now
+          <h2 id="product-name" style="color: var(--brand-dark);">Loading...</h2>
+          <h3 id="product-price" class="text-brand-pastel-indigo mb-3" style="font-weight: 700;"></h3>
+          <div id="product-rating" class="mb-4"></div>
+          <p id="product-description" class="text-muted"></p>
+          
+          <!-- Specifications Section -->
+          <div id="product-specifications" class="mt-4" style="display: none;">
+            <h4 class="mb-3" style="color: var(--brand-dark);">
+              <i class="fa-solid fa-list-check me-2 text-brand-pastel-indigo"></i>Specifications
+            </h4>
+            <div class="card" style="border-radius: 15px; border: none; box-shadow: var(--brand-shadow-soft);">
+              <div class="card-body p-0">
+                <table class="table table-borderless mb-0">
+                  <tbody id="specifications-body">
+                    <!-- Specifications will be dynamically loaded here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <hr style="border-color: var(--brand-light-gray);" />
+          <div class="d-grid gap-2 d-md-flex mt-4">
+            <button id="buy-now-btn" class="btn btn-success btn-lg flex-fill" disabled style="border-radius: 30px;">
+              <i class="fa-solid fa-bolt me-2"></i>Buy Now
             </button>
-            <button id="add-to-cart-btn" class="btn btn-primary btn-lg" disabled>
-              <i class="fa-solid fa-cart-plus"></i> Add to Cart
+            <button id="add-to-cart-btn" class="btn btn-primary btn-lg flex-fill" disabled style="border-radius: 30px;">
+              <i class="fa-solid fa-cart-plus me-2"></i>Add to Cart
             </button>
           </div>
         </div>
         <div id="product-not-found" class="col-12 text-center" style="display: none;">
-            <h2>Product Not Found</h2>
-            <p>We couldn't find the product you're looking for.</p>
-            <a href="store.html" class="btn btn-primary">Back to Store</a>
+            <div class="py-5">
+                <i class="fas fa-exclamation-circle" style="font-size: 4rem; color: var(--brand-gray);"></i>
+                <h2 class="mt-4 text-brand-pastel-indigo">Product Not Found</h2>
+                <p class="text-muted mb-4">We couldn't find the product you're looking for.</p>
+                <a href="store.html" class="btn btn-primary">Back to Store</a>
+            </div>
         </div>
       </div>
     </div>
 
     <!-- Reviews Section -->
     <div class="container my-5">
-      <hr>
-      <h3 class="mb-4">Customer Reviews</h3>
+      <hr style="border-color: var(--brand-light-gray);">
+      <h3 class="mb-4" style="color: var(--brand-dark);">Customer Reviews</h3>
       <div id="reviews-container">
         <!-- Reviews will be dynamically loaded here -->
       </div>
 
       <!-- Review Form -->
-      <div class="card mt-5">
-        <div class="card-body">
-          <h4 class="card-title">Leave a Review</h4>
+      <div class="card mt-5" style="border-radius: 20px; box-shadow: var(--brand-shadow-soft); border: none;">
+        <div class="card-body p-4">
+          <h4 class="card-title mb-4" style="color: var(--brand-dark);">Leave a Review</h4>
           <form id="review-form">
             <div class="mb-3">
               <label for="review-author" class="form-label">Your Name</label>
-              <input type="text" class="form-control" id="review-author" required>
+              <input type="text" class="form-control" id="review-author" required placeholder="Enter your name">
             </div>
             <div class="mb-3">
               <label for="review-rating" class="form-label">Rating</label>
@@ -126,20 +110,15 @@
             </div>
             <div class="mb-3">
               <label for="review-comment" class="form-label">Comment</label>
-              <textarea class="form-control" id="review-comment" rows="3" required></textarea>
+              <textarea class="form-control" id="review-comment" rows="3" required placeholder="Share your experience with this product"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit Review</button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-paper-plane me-2"></i>Submit Review
+            </button>
           </form>
         </div>
       </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="bg-light text-center text-lg-start mt-auto">
-      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-        © 2024 Copyright: <a class="text-dark" href="index.html">kraft.4u</a>
-      </div>
-    </footer>
 
     <!-- QR Code Modal -->
     <div class="modal fade" id="qrCodeModal" tabindex="-1" aria-labelledby="qrCodeModalLabel" aria-hidden="true">
@@ -175,15 +154,27 @@
       </div>
     </div>
 
-    <a href="https://wa.me/+919541354578" class="whatsapp-button" target="_blank"
-      ><i class="fab fa-whatsapp"></i
-    ></a>
+    <!-- WhatsApp Sidebar Button -->
+    <a href="https://wa.me/+919541354578" class="whatsapp-button" target="_blank">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- QR Code Generator Library -->
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/script.js"></script>
+    <script src="components.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
     <script>
+      // Get products from localStorage or use default data
+      const getProducts = () => {
+          const stored = localStorage.getItem('adminProducts');
+          if (stored) {
+              return JSON.parse(stored);
+          }
+          return allProducts;
+      };
+
       function getStarRating(rating) {
         let starsHTML = '';
         const fullStars = Math.floor(rating);
@@ -191,13 +182,13 @@
         const emptyStars = 5 - fullStars - halfStar;
 
         for (let i = 0; i < fullStars; i++) {
-          starsHTML += '<i class="fa-solid fa-star"></i>';
+          starsHTML += '<i class="fa-solid fa-star" style="color: var(--brand-gold);"></i>';
         }
         if (halfStar) {
-          starsHTML += '<i class="fa-solid fa-star-half-alt"></i>';
+          starsHTML += '<i class="fa-solid fa-star-half-alt" style="color: var(--brand-gold);"></i>';
         }
         for (let i = 0; i < emptyStars; i++) {
-          starsHTML += '<i class="fa-regular fa-star"></i>';
+          starsHTML += '<i class="fa-regular fa-star" style="color: var(--brand-gold);"></i>';
         }
         return starsHTML;
       }
@@ -211,7 +202,7 @@
         const reviews = product.reviews || [];
 
         if (reviews.length === 0) {
-          reviewsContainer.innerHTML = '<p>No reviews yet. Be the first to review this product!</p>';
+          reviewsContainer.innerHTML = '<p class="text-muted">No reviews yet. Be the first to review this product!</p>';
           productRatingContainer.innerHTML = '<span class="text-muted">No ratings yet</span>';
           return;
         }
@@ -220,7 +211,7 @@
         reviews.forEach(review => {
           totalRating += review.rating;
           reviewsContainer.innerHTML += `
-            <div class="card mb-3">
+            <div class="card mb-3" style="border-radius: 15px; box-shadow: var(--brand-shadow-soft); border: none;">
               <div class="card-body">
                 <div class="star-rating mb-2">${getStarRating(review.rating)}</div>
                 <h6 class="card-subtitle mb-2 text-muted">by ${review.author}</h6>
@@ -241,7 +232,8 @@
         const params = new URLSearchParams(window.location.search);
         const productId = params.get("id");
 
-        const product = allProducts.find(p => p.id === productId);
+        const currentProducts = getProducts();
+        const product = currentProducts.find(p => p.id === productId);
 
         if (product) {
           // Update page content with product details
@@ -255,6 +247,29 @@
           // Display reviews
           displayReviews(product);
 
+          // Display specifications
+          const specificationsSection = document.getElementById('product-specifications');
+          const specificationsBody = document.getElementById('specifications-body');
+          
+          if (product.specifications && Object.keys(product.specifications).length > 0) {
+            specificationsBody.innerHTML = '';
+            for (const [key, value] of Object.entries(product.specifications)) {
+              // Skip placeholder values
+              if (value && value.startsWith('_') && value.endsWith('_')) continue;
+              
+              // Format the key (convert camelCase to Title Case)
+              const formattedKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+              
+              specificationsBody.innerHTML += `
+                <tr style="border-bottom: 1px solid var(--brand-light-gray);">
+                  <td class="py-3 ps-4 fw-semibold" style="color: var(--brand-dark); width: 40%;">${formattedKey}</td>
+                  <td class="py-3 pe-4" style="color: var(--brand-gray);">${value}</td>
+                </tr>
+              `;
+            }
+            specificationsSection.style.display = 'block';
+          }
+
           // Update the "Add to Cart" button
           const buyNowBtn = document.getElementById("buy-now-btn");
           const addToCartBtn = document.getElementById("add-to-cart-btn");
@@ -266,7 +281,7 @@
         } else {
           // Product not found, show an error message
           document.getElementById("product-details-content").style.display = 'none';
-          document.querySelector('.col-md-6 > img').style.display = 'none';
+          document.querySelector('.col-md-6 > .card').style.display = 'none';
           document.getElementById("product-not-found").style.display = 'block';
         }
 
