@@ -21,20 +21,19 @@ function adminLogout() {
     sessionStorage.removeItem('adminAuth');
 }
 
-// Protect admin page - call this at the start of admin.html
-function protectAdminPage() {
-    if (!isAdminAuthenticated()) {
-        showLoginModal();
-        return false;
-    }
-    return true;
-}
-
-// Show login modal
+// Show login modal as overlay (doesn't replace body content)
 function showLoginModal() {
-    document.body.innerHTML = `
-        <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); font-family: Arial, sans-serif;">
-            <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); text-align: center; max-width: 400px; width: 90%;">
+    // Check if modal already exists
+    if (document.getElementById('admin-login-modal')) {
+        return;
+    }
+
+    // Create modal overlay
+    const modalOverlay = document.createElement('div');
+    modalOverlay.id = 'admin-login-modal';
+    modalOverlay.innerHTML = `
+        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 9999; font-family: Arial, sans-serif;">
+            <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); text-align: center; max-width: 400px; width: 90%;">
                 <h2 style="color: #333; margin-bottom: 10px;"><i class="fas fa-crown"></i> Admin Login</h2>
                 <p style="color: #666; margin-bottom: 30px;">Enter your password to access the admin panel</p>
                 <input type="password" id="admin-password" placeholder="Enter Password" 
@@ -46,11 +45,15 @@ function showLoginModal() {
                 <p id="login-error" style="color: red; margin-top: 15px; display: none;">Incorrect password. Please try again.</p>
             </div>
         </div>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     `;
-    
+
+    // Add modal to body
+    document.body.appendChild(modalOverlay);
+
     // Allow Enter key to submit
-    document.getElementById('admin-password').addEventListener('keypress', function(e) {
+    const passwordInput = document.getElementById('admin-password');
+    passwordInput.focus();
+    passwordInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             attemptLogin();
         }
@@ -61,9 +64,18 @@ function showLoginModal() {
 function attemptLogin() {
     const password = document.getElementById('admin-password').value;
     if (adminLogin(password)) {
-        // Reload the page after successful login
-        location.reload();
+        // Remove modal and show main content
+        const modal = document.getElementById('admin-login-modal');
+        if (modal) {
+            modal.remove();
+        }
+        // Show main content
+        document.querySelector('.container-fluid').style.display = 'block';
+        // Initialize data
+        initializeData();
+        initImageUpload();
     } else {
         document.getElementById('login-error').style.display = 'block';
     }
 }
+
