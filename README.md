@@ -79,10 +79,7 @@ kraft/
 Navigate to `admin.html` to access the admin panel.
 
 ### Default Password
-```
-Password: Ladnajarurihai
-```
-
+ ------Data Hidden------
 ### Features
 - Dashboard with product statistics
 - Add new products with specifications
