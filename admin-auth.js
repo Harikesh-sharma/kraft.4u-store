@@ -4,13 +4,13 @@ const ADMIN_PASSWORD = "Ladnajarurihai"; // Change this to your desired password
 
 // Check if user is authenticated
 function isAdminAuthenticated() {
-    return sessionStorage.getItem('adminAuth') === 'true';
+    return localStorage.getItem('adminAuth') === 'true';
 }
 
 // Login function
 function adminLogin(password) {
     if (password === ADMIN_PASSWORD) {
-        sessionStorage.setItem('adminAuth', 'true');
+        localStorage.setItem('adminAuth', 'true');
         return true;
     }
     return false;
@@ -18,7 +18,7 @@ function adminLogin(password) {
 
 // Logout function
 function adminLogout() {
-    sessionStorage.removeItem('adminAuth');
+    localStorage.removeItem('adminAuth');
 }
 
 // Show login modal as overlay (doesn't replace body content)
@@ -53,7 +53,7 @@ function showLoginModal() {
     // Allow Enter key to submit
     const passwordInput = document.getElementById('admin-password');
     passwordInput.focus();
-    passwordInput.addEventListener('keypress', function(e) {
+    passwordInput.addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
             attemptLogin();
         }
