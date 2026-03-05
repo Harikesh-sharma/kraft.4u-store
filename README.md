@@ -72,17 +72,6 @@ kraft/
 ├── images/             # Product images
 └── README.md           # This file
 ```
-
-## 🔐 Admin Panel
-
-### Access
-Navigate to `admin.html` to access the admin panel.
-
-### Default Password
-```
-Data Hidden----
-```
-
 ### Features
 - Dashboard with product statistics
 - Add new products with specifications
