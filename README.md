@@ -80,7 +80,7 @@ Navigate to `admin.html` to access the admin panel.
 
 ### Default Password
 ```
-Password: Ladnajarurihai
+Data Hidden----
 ```
 
 ### Features
