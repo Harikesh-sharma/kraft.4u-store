@@ -68,11 +68,6 @@
             margin-bottom: 10px;
         }
     </style>
-    <!-- Hide admin content until authentication is verified -->
-    <style id="admin-auth-style">
-        body > * { display: none !important; }
-        body::after { content: "Loading..."; display: block !important; text-align: center; padding: 50px; font-size: 18px; }
-    </style>
 </head>
 <body>
     <div class="container-fluid">
@@ -333,18 +328,11 @@
     <script src="data.js"></script>
     <script src="firebase-config.js"></script>
     <script>
-        // Immediately protect admin page - require login BEFORE any content loads
-        (function() {
-            if (!isAdminAuthenticated()) {
-                showLoginModal();
-                return; // Stop execution - don't load admin panel
-            }
-            // User is authenticated - remove the hiding style
-            var authStyle = document.getElementById('admin-auth-style');
-            if (authStyle) {
-                authStyle.parentNode.removeChild(authStyle);
-            }
-        })();
+        // Protect admin page - require login
+        if (!isAdminAuthenticated()) {
+            showLoginModal();
+            return; // Stop execution - don't load admin panel
+        }
     </script>
     <script>
         // Initialize admin data only if authenticated
