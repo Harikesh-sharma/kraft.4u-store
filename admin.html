@@ -378,6 +378,14 @@
         // Mark Firebase as ready (even if it failed, we continue)
         window.firebaseReady = true;
         
+        // Backup timeout to hide loading screen if something hangs
+        setTimeout(function() {
+            var loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
+                loadingScreen.classList.add('hidden');
+            }
+        }, 5000);
+        
         // Protect admin page - require login
         document.addEventListener('DOMContentLoaded', function() {
             // Hide loading screen
