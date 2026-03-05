@@ -336,6 +336,11 @@
         // Immediately protect admin page - require login BEFORE any content loads
         (function() {
             if (!isAdminAuthenticated()) {
+                // Remove the hiding style first, then show login
+                var authStyle = document.getElementById('admin-auth-style');
+                if (authStyle) {
+                    authStyle.parentNode.removeChild(authStyle);
+                }
                 showLoginModal();
                 return; // Stop execution - don't load admin panel
             }
