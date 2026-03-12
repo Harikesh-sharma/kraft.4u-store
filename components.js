@@ -86,7 +86,7 @@ const footerHTML = `
     </div>
   </div>
   <div class="text-center p-3" style="background-color: var(--brand-dark); color: var(--brand-white);">
-    © 2024 Copyright: <a class="text-light" href="index.html">kraft.4u</a> | Handmade with <i class="fas fa-heart" style="color: var(--brand-pastel-indigo);"></i>
+    © 2025 Copyright: <a class="text-light" href="index.html">kraft.4u</a> | Handmade with <i class="fas fa-heart" style="color: var(--brand-pastel-indigo);"></i>
   </div>
 </footer>
 `;
