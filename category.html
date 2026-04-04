@@ -50,93 +50,110 @@
     <script src="script.js"></script>
     <!-- Page-specific script for dynamic content -->
     <script>
-      // Get products from localStorage or use default data
-      const getProducts = () => {
-          const stored = localStorage.getItem('adminProducts');
-          if (stored) {
-              return JSON.parse(stored);
-          }
-          return allProducts;
-      };
-
       document.addEventListener("DOMContentLoaded", () => {
-        const params = new URLSearchParams(window.location.search);
-        const category = params.get("category");
-        const productListContainer = document.getElementById("product-list");
-
-        if (category) {
-          const categoryName = decodeURIComponent(category);
-          const currentProducts = getProducts();
-
-          // Update titles
-          document.getElementById("category-title").textContent = categoryName;
-          document.title = `kraft.4u - ${categoryName}`;
-
-          if (categoryName === "Coming Soon") {
-            productListContainer.innerHTML =
-              '<div class="text-center py-5"><h2 class="text-brand-pastel-indigo">Coming Soon!</h2><p class="text-muted">We are working on exciting new products. Stay tuned!</p><a href="store.html" class="btn btn-primary mt-3">Browse All Products</a></div>';
-            return;
-          }
-
-          // Filter products based on the category
-          let filteredProducts;
-          if (categoryName === "All Products") {
-            filteredProducts = currentProducts;
+        console.log('Category page DOM loaded');
+        
+        // Wait for all scripts to load with retry
+        const checkGetProducts = () => {
+          if (typeof window.getProducts === 'function') {
+            loadCategory();
           } else {
-            filteredProducts = currentProducts.filter(
-              (product) => product.category === categoryName
-            );
+            console.warn('getProducts not ready, retrying...');
+            setTimeout(checkGetProducts, 100);
           }
+        };
+        
+        function loadCategory() {
+          try {
+            const params = new URLSearchParams(window.location.search);
+            const category = params.get("category");
+            const productListContainer = document.getElementById("product-list");
 
-          // Clear existing content and display products
-          productListContainer.innerHTML = "";
+            console.log('Category param:', category);
 
-          if (filteredProducts.length > 0) {
-            filteredProducts.forEach((product) => {
-              const newBadge = product.isNew ? '<span class="badge bg-success new-arrival-badge">NEW</span>' : '';
-              const productCard = `
-                <div class="col-lg-3 col-md-6 mb-4">
-                  <div class="card h-100 product-card">
-                    ${newBadge}
-                    <a href="product.html?id=${product.id}">
-                      <img src="${product.image}" class="card-img-top" alt="${product.name}">
-                    </a>
-                    <div class="card-body">
-                      <h5 class="card-title">
-                        <a href="product.html?id=${product.id}" class="text-decoration-none text-dark">${product.name}</a>
-                      </h5>
-                      <h6 class="card-subtitle mb-2 text-muted">₹${product.price}</h6>
+            if (category) {
+              const categoryName = decodeURIComponent(category);
+              const currentProducts = window.getProducts();
+              console.log('Products loaded:', currentProducts.length, 'total');
+
+              // Update titles
+              document.getElementById("category-title").textContent = categoryName;
+              document.title = `kraft.4u - ${categoryName}`;
+
+              if (categoryName === "Coming Soon") {
+                productListContainer.innerHTML =
+                  '<div class="text-center py-5"><h2 class="text-brand-pastel-indigo">Coming Soon!</h2><p class="text-muted">We are working on exciting new products. Stay tuned!</p><a href="store.html" class="btn btn-primary mt-3">Browse All Products</a></div>';
+                return;
+              }
+
+              // Filter products based on the category
+              let filteredProducts;
+              if (categoryName === "All Products") {
+                filteredProducts = currentProducts;
+              } else {
+                filteredProducts = currentProducts.filter(
+                  (product) => product.category === categoryName
+                );
+              }
+              console.log('Filtered products:', filteredProducts.length);
+
+              // Clear existing content and display products
+              productListContainer.innerHTML = "";
+
+              if (filteredProducts.length > 0) {
+                filteredProducts.forEach((product) => {
+                  const newBadge = product.isNew ? '<span class="badge bg-success new-arrival-badge">NEW</span>' : '';
+                  const productCard = `
+                    <div class="col-lg-3 col-md-6 mb-4">
+                      <div class="card h-100 product-card">
+                        ${newBadge}
+                        <a href="product.html?id=${product.id}">
+                          <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                        </a>
+                        <div class="card-body">
+                          <h5 class="card-title">
+                            <a href="product.html?id=${product.id}" class="text-decoration-none text-dark">${product.name}</a>
+                          </h5>
+                          <h6 class="card-subtitle mb-2 text-muted">₹${product.price}</h6>
+                        </div>
+                        <div class="card-footer text-center" style="background: transparent; border-top: none;">
+                          <button class="btn btn-primary add-to-cart-btn" data-id="${product.id}">
+                            <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <div class="card-footer text-center" style="background: transparent; border-top: none;">
-                      <button class="btn btn-primary add-to-cart-btn" data-id="${product.id}">
-                        <i class="fas fa-shopping-cart me-2"></i>Add to Cart
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              `;
-              productListContainer.innerHTML += productCard;
-            });
-
-            // Add event listeners to the new buttons
-            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const productId = e.currentTarget.dataset.id;
-                    const product = currentProducts.find(p => p.id === productId);
-                    if (product) {
-                        addToCart(product.id, product.name, product.price, product.image);
-                    }
+                  `;
+                  productListContainer.innerHTML += productCard;
                 });
-            });
-          } else {
-            productListContainer.innerHTML = '<p class="text-center">No products found in this category.</p>';
+
+                // Add event listeners to the new buttons
+                document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const productId = e.currentTarget.dataset.id;
+                        const product = currentProducts.find(p => p.id === productId);
+                        if (product) {
+                            addToCart(product.id, product.name, product.price, product.image);
+                        }
+                    });
+                });
+              } else {
+                productListContainer.innerHTML = '<div class="col-12 text-center py-5"><h4>No products found in this category.</h4><p>Try <a href="store.html">browsing all products</a> or select another category.</p></div>';
+              }
+            } else {
+              // No category param - redirect to store
+              document.getElementById("category-title").textContent = "Select a Category";
+              productListContainer.innerHTML = '<div class="col-12 text-center py-5"><h4>Category Not Found</h4><p>Please select a category from the <a href="index.html">homepage</a> or <a href="store.html">store</a>.</p></div>';
+            }
+          } catch (error) {
+            console.error('Category load error:', error);
+            document.getElementById("product-list").innerHTML = '<div class="col-12 text-center py-5"><h4>Error loading category</h4><p>Please refresh the page or visit <a href="store.html">store.html</a>.</p></div>';
           }
-        } else {
-          // Handle case where no category is specified
-          document.getElementById("category-title").textContent = "Category Not Found";
-          productListContainer.innerHTML = '<p class="text-center">Please select a category from the <a href="index.html">homepage</a>.</p>';
         }
+        
+        checkGetProducts();
       });
     </script>
   </body>
 </html>
+
