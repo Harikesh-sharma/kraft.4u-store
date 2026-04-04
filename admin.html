@@ -168,8 +168,13 @@
                     </div>
                     
                     <div class="admin-card p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="mb-0">All Products</h4>
+                        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                            <div class="input-group" style="max-width: 300px;">
+                                <input type="text" class="form-control" id="product-search" placeholder="Search products..." oninput="loadProductsTable()">
+                                <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('product-search').value=''; loadProductsTable()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                             <button class="btn btn-primary" onclick="showSection('add-product')">
                                 <i class="fas fa-plus me-2"></i>Add Product
                             </button>
@@ -220,12 +225,7 @@
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label">Category *</label>
                                     <select class="form-select" id="product-category" required>
-                                        <option value="">Select Category</option>
-                                        <option value="Resin Items">Resin Items</option>
-                                        <option value="Candles">Candles</option>
-                                        <option value="Keychains">Keychains</option>
-                                        <option value="Wall Art">Wall Art</option>
-                                        <option value="Lippan Art">Lippan Art</option>
+                                        <option value="">Loading categories...</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6 mb-3">
@@ -300,9 +300,9 @@
                     </div>
                     
                     <div class="admin-card p-4">
-                        <div class="text-center py-5">
+                        <div id="orders-content" class="text-center py-5">
                             <i class="fas fa-shopping-bag" style="font-size: 4rem; color: var(--brand-gray);"></i>
-                            <h4 class="mt-3 text-muted">No Orders Yet</h4>
+                            <h4 class="mt-3 text-muted">Loading orders...</h4>
                             <p class="text-muted">Orders will appear here when customers make purchases</p>
                         </div>
                 </div>
@@ -347,55 +347,76 @@
         <div class="loading-spinner"></div>
         <div class="loading-text">Loading Admin Panel...</div>
 
+    <!-- Firebase SDK v8 (modular compat for config) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Load admin-auth.js BEFORE the authentication check -->
+    <!-- Firebase Config + Wrappers -->
+    <script src="firebase-config.js"></script>
+    <script src="admin-firebase.js"></script>
+    <!-- Legacy auth (enhanced) + Data -->
     <script src="admin-auth.js"></script>
     <script src="data.js"></script>
+    <!-- Shared utils for toasts/cart -->
+    <script src="script.js"></script>
     <script>
-        // Protect admin page - require login
-        document.addEventListener('DOMContentLoaded', function() {
-            // Hide loading screen
-            var loadingScreen = document.getElementById('loading-screen');
-            if (loadingScreen) {
-                loadingScreen.classList.add('hidden');
-            }
+        // Enhanced auth check + Firebase init
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Hide loading after init
+            const loadingScreen = document.getElementById('loading-screen');
             
-            if (!isAdminAuthenticated()) {
+            try {
+                // Init Firebase wrappers
+                await new Promise(resolve => setTimeout(resolve, 500)); // Allow Firebase init
+            } catch (e) {
+                console.error('Firebase init error:', e);
+            }
+
+            loadingScreen.classList.add('hidden');
+            
+            // Check auth (legacy + Firebase)
+            if (!window.AdminFirebase.isAuthenticated()) {
                 showLoginModal();
-                // Hide main content until authenticated
-                var container = document.querySelector('.container-fluid');
-                if (container) {
-                    container.style.display = 'none';
-                }
+                document.querySelector('.container-fluid').style.display = 'none';
+            } else {
+                // Auto-init data on auth
+                initAdminData();
             }
         });
     </script>
     <script>
-        // Admin panel - Using localStorage only (no Firebase)
-        var adminProducts = [];
+        // Firebase-powered Admin - Realtime sync
+        let adminProducts = [];
+        let fbListener = null;
 
-        // Initialize data from localStorage
-        function initializeData() {
-            var stored = localStorage.getItem('kraft4u_products');
-            if (stored) {
-                adminProducts = JSON.parse(stored);
-            } else {
-                // Use default products from data.js
-                adminProducts = [...allProducts];
-                saveToLocalStorage();
+        // Init Firebase data
+        async function initAdminData() {
+            try {
+                showToast('Loading products from Firebase...');
+                adminProducts = await window.AdminFirebase.loadProducts();
+                updateDashboard();
+                loadProductsTable();
+                console.log(`Firebase admin loaded ${adminProducts.length} products`);
+            } catch (error) {
+                console.error('Data load error:', error);
+                showToast('Fallback to local data', 'error');
+                // Fallback
+                const stored = localStorage.getItem('kraft4u_products');
+                adminProducts = stored ? JSON.parse(stored) : [...allProducts];
+                updateDashboard();
             }
-            updateDashboard();
-            console.log('Admin panel loaded with ' + adminProducts.length + ' products');
-        }
-
-        // Save to localStorage
-        function saveToLocalStorage() {
-            localStorage.setItem('kraft4u_products', JSON.stringify(adminProducts));
-        }
-
-        // Generate unique ID
-        function generateId() {
-            return 'p' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+            
+            // Realtime listener
+            window.AdminFirebase.listenProducts((products) => {
+                adminProducts = products;
+                if (document.getElementById('products-section').style.display !== 'none') {
+                    loadProductsTable();
+                }
+                updateDashboard();
+            });
         }
 
         // Show section
@@ -419,48 +440,62 @@
             }
         }
 
-        // Update dashboard stats
+        // Realtime dashboard stats
         function updateDashboard() {
-            var totalProducts = adminProducts.length;
-            var categories = [];
-            adminProducts.forEach(function(p) {
-                if (categories.indexOf(p.category) === -1) categories.push(p.category);
-            });
-            var totalReviews = adminProducts.reduce(function(sum, p) { return sum + (p.reviews ? p.reviews.length : 0); }, 0);
-            var avgPrice = adminProducts.length > 0 
-                ? Math.round(adminProducts.reduce(function(sum, p) { return sum + p.price; }, 0) / adminProducts.length) 
+            const totalProducts = adminProducts.length;
+            const categories = [...new Set(adminProducts.map(p => p.category))];
+            const totalReviews = adminProducts.reduce((sum, p) => sum + (p.reviews?.length || 0), 0);
+            const avgPrice = totalProducts > 0 
+                ? Math.round(adminProducts.reduce((sum, p) => sum + p.price, 0) / totalProducts) 
                 : 0;
 
             document.getElementById('total-products').textContent = totalProducts;
             document.getElementById('total-categories').textContent = categories.length;
             document.getElementById('total-reviews').textContent = totalReviews;
-            document.getElementById('avg-price').textContent = '₹' + avgPrice;
+            document.getElementById('avg-price').textContent = `₹${avgPrice}`;
         }
 
-        // Load products table
-        function loadProductsTable() {
-            var tbody = document.getElementById('products-table-body');
-            tbody.innerHTML = '';
+        // Load products table (Firebase data)
+        async function loadProductsTable() {
+            const tbody = document.getElementById('products-table-body');
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center">Loading...</td></tr>';
 
-            adminProducts.forEach(function(product) {
-                var productId = product.id || 'unknown';
-                tbody.innerHTML += 
-                    '<tr>' +
-                        '<td>' + productId + '</td>' +
-                        '<td><img src="' + product.image + '" alt="' + product.name + '" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;"></td>' +
-                        '<td>' + product.name + '</td>' +
-                        '<td>₹' + product.price + '</td>' +
-                        '<td><span class="badge bg-primary">' + product.category + '</span></td>' +
-                        '<td>' +
-                            '<button class="btn btn-sm btn-outline-primary me-1" onclick="editProduct(\'' + productId + '\')">' +
-                                '<i class="fas fa-edit"></i>' +
-                            '</button>' +
-                            '<button class="btn btn-sm btn-outline-danger" onclick="deleteProduct(\'' + productId + '\')">' +
-                                '<i class="fas fa-trash"></i>' +
-                            '</button>' +
-                        '</td>' +
-                    '</tr>';
-            });
+            try {
+                // Filter/search
+                const searchTerm = document.getElementById('product-search')?.value.toLowerCase() || '';
+                const filtered = adminProducts.filter(p => 
+                    p.name.toLowerCase().includes(searchTerm) || 
+                    p.category.toLowerCase().includes(searchTerm)
+                );
+                
+                if (filtered.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted p-4">No products found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = filtered.map(product => {
+                    const id = product.id || 'unknown';
+                    return `
+                        <tr>
+                            <td>${id.slice(-8)}</td>
+                            <td><img src="${product.image}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;" onerror="this.src='images/shopping.webp'"></td>
+                            <td>${product.name}</td>
+                            <td>₹${product.price}</td>
+                            <td><span class="badge bg-primary">${product.category}</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary me-1" onclick="editProduct('${id}')" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteProduct('${id}')" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>`;
+                }).join('');
+            } catch (error) {
+                console.error('Table load error:', error);
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger p-4">Error loading products</td></tr>';
+            }
         }
 
         // Add specification row
