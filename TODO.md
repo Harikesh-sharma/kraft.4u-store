@@ -1,30 +1,25 @@
-# Category Page Fix - Progress Tracker
+# GitHub Upload & Deployment - Progress Tracker
 
-## Plan Steps (Approved)
+## Approved Plan Steps
 
-### 1. [✅ COMPLETE] Make data.js robust (define getProducts safely)
-   - ✅ Validate localStorage JSON parse
-   - ✅ Add getCategories()
-   - ✅ Ensure functions global (window.getProducts)
+### 1. [ ] Create .gitignore
+   - Exclude temp files, DOCX, etc.
+   - Commit it
 
-### 2. [✅ COMPLETE] Update category.html inline script
-   - ✅ Add error handling/logging (try/catch, console.log)
-   - ✅ Fallback if no category param (better UX, links to store)
-   - ✅ getProducts() existence check (retry loop)
+### 2. [ ] Handle untracked files
+   - Add/commit rahul_report.docx or ignore via gitignore
 
-### 3. [✅ COMPLETE] Test & Debug
-   - ✅ Console: Fixed "getProducts not defined" error
-   - ✅ data.js: Robust loading with logging & localStorage reset on corruption
-   - ✅ category.html: Error handling, retry, better UX fallbacks
-   - ✅ Tested: category.html?category=Candles now loads/filtered products
+### 3. [ ] Push current feature branch
+   - `git push origin blackboxai/admin-panel-fix`
 
-### 4. [✅ COMPLETE] Prevention
-   - No nav link issues found (search_files showed 0, but core logic fixed)
+### 4. [ ] Sync with main branch
+   - Checkout main, pull, merge feature branch, push main
 
-**Status**: ✅ FIXED - Category page now renders products correctly!
+### 5. [ ] Enable GitHub Pages
+   - Repo Settings > Pages > main branch root
 
-**Final Notes**:
-- Clear localStorage if issues: `localStorage.removeItem('adminProducts')`
-- Test: Open `category.html?category=Candles`
+### 6. [ ] Verify live site
+   - https://harikesh-sharma.github.io/kraft.4u-store
 
-
+**Next**: Execute step 1 after confirmation.
+**Status**: Ready to deploy all webpages to GitHub ✅
