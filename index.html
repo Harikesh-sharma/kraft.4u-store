@@ -38,7 +38,7 @@
       <h2 class="section-title">Shop by Category</h2>
       <p class="section-subtitle">Browse our curated collections</p>
 
-      <!-- kraft.4u Candle Collection Banner -->
+      <!-- kraft.4u Candle Collection Banner (keeping static as special promo) -->
       <div class="row mb-5">
         <div class="col-12">
           <div class="card border-0" style="border-radius: 20px; overflow: hidden; box-shadow: var(--brand-shadow);">
@@ -59,51 +59,10 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <!-- Resin Items -->
-        <div class="col-md-3 col-sm-6 mb-4">
-          <div class="card h-100 category-card">
-            <img src="images/resin_flower_product_web.jpg" class="card-img-top" alt="Resin Items" />
-            <div class="card-body">
-              <h5 class="card-title">Resin Products</h5>
-              <p class="card-text">Beautiful handmade resin crafts</p>
-              <a href="category.html?category=Resin+Items" class="btn btn-primary">Shop Now</a>
-            </div>
-          </div>
-        </div>
-        <!-- Candles -->
-        <div class="col-md-3 col-sm-6 mb-4">
-          <div class="card h-100 category-card">
-            <img src="images/Scented_candle_lavender.jpeg" class="card-img-top" alt="Candles" />
-            <div class="card-body">
-              <h5 class="card-title">Candles</h5>
-              <p class="card-text">Scented & decorative candles</p>
-              <a href="category.html?category=Candles" class="btn btn-primary">Shop Now</a>
-            </div>
-          </div>
-        </div>
-        <!-- Keychains -->
-        <div class="col-md-3 col-sm-6 mb-4">
-          <div class="card h-100 category-card">
-            <img src="images/keychain.png" class="card-img-top" alt="Keychains" />
-            <div class="card-body">
-              <h5 class="card-title">Keychains</h5>
-              <p class="card-text">Unique handmade keychains</p>
-              <a href="category.html?category=Keychains" class="btn btn-primary">Shop Now</a>
-            </div>
-          </div>
-        </div>
-        <!-- Wall Art -->
-        <div class="col-md-3 col-sm-6 mb-4">
-          <div class="card h-100 category-card">
-            <img src="images/shiv.jpg" class="card-img-top" alt="Wall Art" />
-            <div class="card-body">
-              <h5 class="card-title">Wall Art</h5>
-              <p class="card-text">Stunning wall decorations</p>
-              <a href="category.html?category=Wall+Art" class="btn btn-primary">Shop Now</a>
-            </div>
-          </div>
-        </div>
+
+      <!-- Dynamic Category Cards - Images loaded from components.js via data.js -->
+      <div id="dynamic-category-cards" class="row">
+        <!-- Cards will be populated dynamically -->
       </div>
     </div>
 
@@ -136,51 +95,12 @@
       </div>
     </div>
 
-    <!-- Lippan Art Category -->
+    <!-- Lippan Art Category - Now also dynamic! -->
     <div class="container my-5">
       <h2 class="section-title">Traditional Lippan Art</h2>
       <p class="section-subtitle">Authentic Kutch craft for your home</p>
-      <div class="row">
-        <div class="col-md-3 col-sm-6 mb-4">
-          <div class="card h-100 category-card">
-            <img src="images/lippan_art_mirror.png" class="card-img-top" alt="Lippan Mirrors" />
-            <div class="card-body">
-              <h5 class="card-title">Lippan Mirrors</h5>
-              <p class="card-text">Traditional mud & mirror work</p>
-              <a href="category.html?category=Lippan+Art" class="btn btn-primary">Shop Now</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 mb-4">
-          <div class="card h-100 category-card">
-            <img src="images/Hand crafted Peacock Lippan art.jpeg" class="card-img-top" alt="Peacock Designs" />
-            <div class="card-body">
-              <h5 class="card-title">Peacock Designs</h5>
-              <p class="card-text">Majestic peacock motifs</p>
-              <a href="category.html?category=Lippan+Art" class="btn btn-primary">Shop Now</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 mb-4">
-          <div class="card h-100 category-card">
-            <img src="images/Blulu 3pcs Mandala Wall Art Carved Wood Wall Art Floral Aesthetic Wooden Plaque Set Wood Carving Decor Farmhouse Modern Cutout Plaque for Home Bathroom Decoration(15_8 x 5.1 Inch,White)" class="card-img-top" alt="Wall Panels" />
-            <div class="card-body">
-              <h5 class="card-title">Wall Panels</h5>
-              <p class="card-text">Elegant decorative panels</p>
-              <a href="category.html?category=Lippan+Art" class="btn btn-primary">Shop Now</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 mb-4">
-          <div class="card h-100 category-card">
-            <img src="images/Ganesh outline Lippan Art.jpeg" class="card-img-top" alt="God Designs" />
-            <div class="card-body">
-              <h5 class="card-title">God Designs</h5>
-              <p class="card-text">Sacred traditional art</p>
-              <a href="category.html?category=Lippan+Art" class="btn btn-primary">Shop Now</a>
-            </div>
-          </div>
-        </div>
+      <div id="dynamic-lippan-cards" class="row">
+        <!-- Lippan cards will be populated dynamically -->
       </div>
     </div>
 
@@ -252,5 +172,72 @@
     <script src="components.js"></script>
     <script src="data.js"></script>
     <script src="script.js"></script>
+    <!-- Dynamic Category Rendering -->
+    <script>
+      // Wait for all scripts to load, then render dynamic categories
+      document.addEventListener('DOMContentLoaded', function() {
+        const renderCategories = () => {
+          if (typeof window.getCategories === 'function' && typeof window.renderCategoryCards === 'function') {
+            // Main categories (excluding Lippan as separate section)
+            const allCats = window.getCategories();
+            const mainCats = allCats.filter(cat => cat !== 'Lippan Art');
+            window.renderCategoryCards('dynamic-category-cards', mainCats);
+            
+            // Lippan Art section - 4 PRODUCT cards (per user request)
+            if (typeof window.getProducts === 'function') {
+              const products = window.getProducts();
+              const lippanProducts = products
+                .filter(p => p.category === 'Lippan Art')
+                .slice(0, 4); // Top 4
+              
+              const container = document.getElementById('dynamic-lippan-cards');
+              container.innerHTML = '';
+              
+              lippanProducts.forEach(product => {
+                const newBadge = product.isNew ? '<span class="badge bg-success new-arrival-badge">NEW</span>' : '';
+                const productCard = `
+                  <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card h-100 product-card">
+                      ${newBadge}
+                      <a href="product.html?id=${product.id}">
+                        <img src="${product.image}" class="card-img-top" alt="${product.name}" onerror="this.src='images/placeholder.jpg'">
+                      </a>
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          <a href="product.html?id=${product.id}" class="text-decoration-none text-dark">${product.name}</a>
+                        </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">₹${product.price}</h6>
+                      </div>
+                      <div class="card-footer text-center" style="background: transparent; border-top: none;">
+                        <button class="btn btn-primary add-to-cart-btn" data-id="${product.id}">
+                          <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                `;
+                container.innerHTML += productCard;
+              });
+              
+              // Add event listeners
+              document.querySelectorAll('.add-to-cart-btn[data-id]').forEach(btn => {
+                btn.addEventListener('click', e => {
+                  const id = e.currentTarget.dataset.id;
+                  const product = products.find(p => p.id === id);
+                  if (product && typeof addToCart === 'function') {
+                    addToCart(product.id, product.name, product.price, product.image);
+                  }
+                });
+              });
+            }
+          } else {
+            console.warn('Waiting for functions...');
+            setTimeout(renderCategories, 100);
+          }
+        };
+        renderCategories();
+      });
+    </script>
   </body>
 </html>
+

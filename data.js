@@ -1,6 +1,8 @@
 // Shared product data for the entire store.
 // Categories: Resin Items, Candles, Keychains, Wall Art, Lippan Art
 const allProducts = [
+  // Note: Normalized image paths - all relative 'images/' for local files
+
     // Resin Items
     { id: 'ri01', name: 'Resin Ocean Clock', price: 499, category: 'Resin Items', image: 'images/shopping.webp', description: 'A beautiful wall clock with a resin art ocean wave design.', reviews: [], isNew: true, specifications: { material: 'High-quality Epoxy Resin', dimensions: '12 inches diameter', weight: '450g', color: 'Blue & Teal Ocean Wave', power: '1 AA Battery (not included)', care: 'Wipe clean with soft cloth' } },
     { id: 'ri02', name: 'Resin Photo Frame', price: 349, category: 'Resin Items', image: 'images/photo_frame.png', description: 'Handmade resin photo frame with custom design.', reviews: [], specifications: { material: 'Epoxy Resin & Wood', dimensions: '8x10 inches', weight: '320g', color: 'Custom Design', frame: 'Wooden Frame Included', care: 'Avoid direct sunlight' } },
@@ -8,7 +10,7 @@ const allProducts = [
     { id: 'ri04', name: 'Resin Wall Art', price: 599, category: 'Resin Items', image: 'images/circular.webp', description: 'Stunning resin art piece for your walls.', reviews: [], specifications: { material: 'Epoxy Resin on Wood Base', dimensions: '14 inches diameter', weight: '650g', color: 'Multi-color Abstract', mounting: 'Ready to Hang', care: 'Dust gently' } },
 
     // Candles - kraft.4u Collection
-    { id: 'cn01', name: 'Scented Candle - Lavender', price: 199, category: 'Candles', image: '/images/Scented_candle_lavender.jpeg', description: 'Relaxing lavender scented candle - Handcrafted by kraft.4u', reviews: [], isNew: true, specifications: { material: 'Natural Soy Wax', dimensions: '3 inches diameter x 3.5 inches height', weight: '180g', scent: 'Lavender Essential Oil', burnTime: '35-40 hours', color: 'Natural Cream' } },
+{ id: 'cn01', name: 'Scented Candle - Lavender', price: 199, category: 'Candles', image: 'images/Scented_candle_lavender.jpeg', description: 'Relaxing lavender scented candle - Handcrafted by kraft.4u', reviews: [], isNew: true, specifications: { material: 'Natural Soy Wax', dimensions: '3 inches diameter x 3.5 inches height', weight: '180g', scent: 'Lavender Essential Oil', burnTime: '35-40 hours', color: 'Natural Cream' } },
     { id: 'cn02', name: 'Decorative Pillar Candle', price: 249, category: 'Candles', image: 'images/Decorative_pillar_candle.jpeg', description: 'Beautiful decorative pillar candle - kraft.4u exclusive design.', reviews: [], specifications: { material: 'Palm Wax', dimensions: '3 inches diameter x 6 inches height', weight: '350g', color: 'Gradient Peach to Cream', burnTime: '55-60 hours', design: 'Decorative Ripple Pattern' } },
     { id: 'cn03', name: 'Aromatherapy Candle Set', price: 399, category: 'Candles', image: 'images/Aromatherapy_candle_set.jpeg', description: 'Set of 3 aromatherapy candles - Premium kraft.4u collection.', reviews: [], specifications: { material: 'Natural Soy Wax Blend', dimensions: '2.5 inches diameter x 3 inches each', weight: '150g each', scents: 'Eucalyptus, Lemongrass, Vanilla', burnTime: '30 hours each', quantity: '3 Pieces' } },
     { id: 'cn04', name: 'Hand-poured Soy Candle', price: 299, category: 'Candles', image: 'images/Hand_poured_soy_candle.jpeg', description: 'Natural soy wax hand-poured candle - Made by kraft.4u.', reviews: [], specifications: { material: '100% Natural Soy Wax', dimensions: '3.5 inches diameter x 4 inches height', weight: '250g', scent: 'Custom Blend', burnTime: '45-50 hours', wick: 'Cotton Wick' } },
@@ -55,6 +57,13 @@ window.getProducts = function () {
         const stored = localStorage.getItem('adminProducts');
         if (stored) {
             const parsed = JSON.parse(stored);
+            // Normalize image paths for local files (Firebase URLs are absolute https:// and fine)
+            parsed = parsed.map(product => {
+              if (product.image && !product.image.startsWith('http') && product.image.startsWith('/')) {
+                product.image = product.image.slice(1); // Remove leading / for relative path
+              }
+              return product;
+            });
             if (Array.isArray(parsed) && parsed.length > 0) {
                 console.log('Loaded', parsed.length, 'adminProducts from localStorage');
                 return parsed;
@@ -64,7 +73,13 @@ window.getProducts = function () {
         console.error('Corrupt adminProducts localStorage - resetting:', e);
         localStorage.removeItem('adminProducts');
     }
-    console.log('Using default allProducts (', allProducts.length, 'items)');
+    // Normalize default allProducts paths too
+    allProducts.forEach(product => {
+      if (product.image && !product.image.startsWith('http') && product.image.startsWith('/')) {
+        product.image = product.image.slice(1);
+      }
+    });
+    console.log('Using default allProducts (', allProducts.length, 'items) - paths normalized');
     return allProducts;
 };
 

@@ -91,6 +91,75 @@ const footerHTML = `
 </footer>
 `;
 
+/**
+ * Get representative image for a category (first product's image in that category)
+ * @param {string} category - Category name
+ * @returns {string} Image path or fallback
+ */
+window.getCategoryRepresentativeImage = function(category) {
+  if (typeof window.getProducts !== 'function') {
+    console.warn('getProducts not available');
+    return 'images/placeholder.jpg'; // Fallback
+  }
+  const products = window.getProducts();
+  const categoryProduct = products.find(p => p.category === category);
+  return categoryProduct ? categoryProduct.image : 'images/placeholder.jpg';
+};
+
+/**
+ * Generate HTML for a single category card
+ * @param {string} category - Category name
+ * @returns {string} HTML string for category card
+ */
+window.generateCategoryCardHTML = function(category) {
+  const imageSrc = window.getCategoryRepresentativeImage(category);
+  const encodedCategory = encodeURIComponent(category);
+  const categoryDisplay = category.replace(/Resin Items|Wall Art|Lippan Art/g, match => match.replace(' ', '+'));
+  
+  return `
+    <div class="col-md-3 col-sm-6 mb-4">
+      <div class="card h-100 category-card">
+        <img src="${imageSrc}" class="card-img-top" alt="${category}" onerror="this.src='images/placeholder.jpg'">
+        <div class="card-body">
+          <h5 class="card-title">${category}</h5>
+          <p class="card-text">Handcrafted ${category.toLowerCase()}</p>
+          <a href="category.html?category=${encodedCategory}" class="btn btn-primary">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  `;
+};
+
+/**
+ * Render category cards dynamically into a container
+ * @param {string} containerId - ID of container div (e.g., 'dynamic-category-section')
+ * @param {Array|string} categories - Array of category names or 'all'
+ */
+window.renderCategoryCards = function(containerId, categories) {
+  const container = document.getElementById(containerId);
+  if (!container) {
+    console.error('Container not found:', containerId);
+    return;
+  }
+  
+  let catList = categories;
+  if (typeof categories === 'string' && categories === 'all') {
+    if (typeof window.getCategories === 'function') {
+      catList = window.getCategories();
+    } else {
+      console.warn('getCategories not available, using hardcoded');
+      catList = ['Resin Items', 'Candles', 'Keychains', 'Wall Art', 'Lippan Art'];
+    }
+  }
+  
+  container.innerHTML = '';
+  catList.forEach(category => {
+    container.innerHTML += window.generateCategoryCardHTML(category);
+  });
+  
+  console.log(`Rendered ${catList.length} dynamic category cards`);
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     document.body.insertAdjacentHTML('afterbegin', navbarHTML);
     document.body.insertAdjacentHTML('beforeend', footerHTML);
@@ -105,3 +174,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
